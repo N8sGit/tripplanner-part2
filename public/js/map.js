@@ -1,6 +1,8 @@
 // const express = require('express')
 // const path = require('path')
 
+var drawMarker
+
 
 $(function initializeMap (){
 
@@ -50,7 +52,7 @@ $(function initializeMap (){
     activity: '/images/star-3.png'
   };
 
-  function drawMarker (type, coords) {
+  var drawMarker = function (type, coords) {
     var latLng = new google.maps.LatLng(coords[0], coords[1]);
     var iconURL = iconURLs[type];
     var marker = new google.maps.Marker({
@@ -66,5 +68,7 @@ $(function initializeMap (){
 
 
 });
+
+
 
 // module.exports = {drawMarker}

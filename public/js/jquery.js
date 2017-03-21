@@ -4,10 +4,8 @@
 
 function addOptions(array, destination){
 for(var i = 0; i<array.length; i++){
-  console.log('<option value ="' + array[i].name +'">' + array[i].name + '</option>')
-  '<option value ="Cosmopolitan Hotel"></option>'
-  '<option value =Cosmopolitan Hotel></option>'
-  $(destination).prepend('<option value ="' + array[i].name +'">' + array[i].name + '</option>')
+
+$(destination).prepend('<option value ="' + array[i].name +'">' + array[i].name + '</option>')
 
   }
 }
@@ -17,12 +15,20 @@ $('#hotel-choices').prepend(addOptions(hotels, '#hotel-choices'));
 $('#restaurant-choices').prepend(addOptions(restaurants,'#restaurant-choices' ));
 
 
+function findObject(array, name){
+  for(var i = 0; i<array.length; i++){
+    if(array[i].name === name) return array[i]
+  }
+
+}
 
 function updateItinerary(destination, valueSource, itinerary, array){
   $(destination).on('click', function(){
-    var value = array[14-$(valueSource)[0].selectedIndex].name
-    console.log(value, $(valueSource)[0].selectedIndex)
-    $(itinerary + ':last-child').append('<span class="title">' + value + '</span>')
+    var value = $(valueSource).val()
+array[array.indexOf(value)]
+  $(itinerary + ':last-child').append('<span class="title">' + value + '</span>').append('<button class="btn btn-xs btn-danger remove btn-circle">x</button>')
+
+  drawMarker(destination.slice(1, destination.indexOf('-')), findObject(array,value).latLng)
   })
 }
 

@@ -10,6 +10,13 @@ $(destination).prepend('<option value ="' + array[i].name +'">' + array[i].name 
   }
 }
 
+
+
+
+
+
+
+
 $('#activity-choices').prepend(addOptions(activities, '#activity-choices'));
 $('#hotel-choices').prepend(addOptions(hotels, '#hotel-choices'));
 $('#restaurant-choices').prepend(addOptions(restaurants,'#restaurant-choices' ));
@@ -22,23 +29,55 @@ function findObject(array, name){
 
 }
 
-function updateItinerary(destination, valueSource, itinerary, array){
-  $(destination).on('click', function(){
-    var value = $(valueSource).val()
-// array[array.indexOf(value)]
-    $(itinerary + ':last-child').append('<span class="title">' + value + '</span>').append('<button class="btn btn-xs btn-danger remove btn-circle">x</button>')
 
-    drawMarker(destination.slice(1, destination.indexOf('-')), findObject(array, value).place.location)
-    console.log(destination.slice(1, destination.indexOf('-')))
-    console.log(findObject(array, value).place.location)
+var markerList = []
+console.log(markerList)
+
+function removeItineraryItem(destination){
+$(destination).on('click', 'button' , function(){
+  var value = $(this).val()
+
+  for(var i = 0; i<markerList.length; i++){
+    if(markerList[i].id === value){
+      markerList[i].marker.setMap(null)
+      $("#"+ value ).remove(value)
+    }
+  }
+
   })
 
 }
 
+removeItineraryItem('#hotel-itn')
+
+
+function updateItinerary(destination, valueSource, itinerary, array){
+  $(destination).on('click', function(){
+    var value = $(valueSource).val()
+// array[array.indexOf(value)]
+    $(itinerary + ':last-child').append('<span value ="' + value + '"  id ="' + value + '" class="title">' + value + '</span>').append('<button value ="' + value + '" id ="' + value + '"class="btn btn-xs btn-danger remove btn-circle">x</button>')
+
+    drawMarker(destination.slice(1, destination.indexOf('-')), findObject(array, value).place.location, value)
+
+  })
+
+}
 
 updateItinerary('#restaurant-btn', "#restaurant-choices", '#restaurant-itn', restaurants)
 updateItinerary('#hotel-btn', "#hotel-choices", '#hotel-itn', hotels)
 updateItinerary('#activity-btn', "#activity-choices", '#activity-itn', activities)
+
+  function removeItinerary(destination ){
+
+
+
+
+  }
+
+
+
+
+
 
 
 
@@ -90,7 +129,7 @@ $(function initializeMap (){
     activity: '/images/star-3.png'
   };
 
-   drawMarker = function (type, coords) {
+   drawMarker = function (type, coords, id) {
     var latLng = new google.maps.LatLng(coords[0], coords[1]);
     var iconURL = iconURLs[type];
     var marker = new google.maps.Marker({
@@ -100,6 +139,7 @@ $(function initializeMap (){
     currentMap.center = latLng
     console.log(currentMap)
     marker.setMap(currentMap);
+    markerList.push({ id, marker})
   }
 
   // drawMarker('hotel', [40.705137, -74.007624]);

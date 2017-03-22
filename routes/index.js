@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
       activities: activities,
       restaurants: restaurants
     });
-    console.log('we got here.')
+    console.log(hotels, activities, restaurants)
   })
   .catch(next);
 
